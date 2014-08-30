@@ -14,12 +14,9 @@ part "walls.dart";
 part "texture.dart";
 part "wad.dart";
 
-/**
- *  GAME_ORIGINAL_RESOLUTION false is COMPLETELY broken right now because of the framebuffer being hardcoded at 512*512
- */
-bool GAME_ORIGINAL_RESOLUTION = true; // Original doom was 320x200 pixels
+bool GAME_ORIGINAL_RESOLUTION = false; // Original doom was 320x200 pixels
 bool GAME_ORIGINAL_SCREEN_ASPECT_RATIO = false; // Original doom was 4:3.
-bool GAME_ORIGINAL_PIXEL_ASPECT_RATIO = true; // Original doom used slightly vertically stretched pixels (320x200 pixels in 4:3)
+bool GAME_ORIGINAL_PIXEL_ASPECT_RATIO = false; // Original doom used slightly vertically stretched pixels (320x200 pixels in 4:3)
 
 double GAME_MIN_ASPECT_RATIO = 4/3; // Letterbox if aspect ratio is lower than this
 double GAME_MAX_ASPECT_RATIO = 2/1; // Pillarbox if aspect ratio is higher than this
