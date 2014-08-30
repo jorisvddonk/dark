@@ -24,6 +24,8 @@ bool GAME_ORIGINAL_PIXEL_ASPECT_RATIO = true; // Original doom used slightly ver
 double GAME_MIN_ASPECT_RATIO = 4/3; // Letterbox if aspect ratio is lower than this
 double GAME_MAX_ASPECT_RATIO = 2/1; // Pillarbox if aspect ratio is higher than this
 
+double MOUSE_SENSITIVITY = 0.3; // Multiplier for mouse x movements
+
 
 const TEXTURE_ATLAS_SIZE = 1024;
 
@@ -64,12 +66,18 @@ void addWall(Wall wall) {
 }
 
 List<bool> keys = new List<bool>(256);
+int mousemove_x = 0;
 
 WadFile wadFile = new WadFile();
+
+void clicked(Event event) {
+  canvas.requestPointerLock();
+}
 
 // Init method. Set up WebGL, load textures, etc
 void main() {
   canvas = querySelector("#game");
+  canvas.onClick.listen(clicked);
   canvas.setAttribute("width",  "${screenWidth}px");
   canvas.setAttribute("height",  "${screenHeight}px");
 //  gl = canvas.getContext("webgl", {"stencil": true});
@@ -98,6 +106,9 @@ void main() {
   
   window.onBlur.listen((e) {
     for (int i=0; i<256; i++) keys[i] = false;
+  });
+  window.onMouseMove.listen((e) {
+    mousemove_x = e.movement.x;
   });
   spriteShader.create();
   wallShader.create();
@@ -273,6 +284,8 @@ void updateGameLogic(double passedTime) {
   double iX = 0.0;
   if (keys[81]) iRot+=1.0;
   if (keys[69]) iRot-=1.0;
+  iRot -= mousemove_x*MOUSE_SENSITIVITY;
+  mousemove_x = 0;
 
   if (keys[65]) iX+=1.0;
   if (keys[68]) iX-=1.0;
